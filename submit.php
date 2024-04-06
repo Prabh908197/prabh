@@ -1,12 +1,27 @@
--- Create the database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS test_db;
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
 
--- Use the database
-USE form_db;
+    // Connect to the database
+    $conn = new mysqli('localhost', 'root', '', 'test_db');
 
--- Create the users table
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL
-);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Insert data into the database
+    $sql = "INSERT INTO users (name, email) VALUES ('$name', '$email')";
+    if ($conn->query($sql) === TRUE) {
+        // Redirect back to the form page with success message
+        header("Location: index.html?success=true");
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    // Close connection
+    $conn->close();
+}
+?>
