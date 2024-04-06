@@ -4,7 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
     // Connect to the database
-    $conn = new mysqli('localhost', 'root', '', 'test_db');
+    $conn = new mysqli('localhost', 'root', '', 'form_db');
 
     // Check connection
     if ($conn->connect_error) {
